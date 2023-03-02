@@ -1,4 +1,4 @@
-import { Locator } from "@playwright/test/types/test";
+import { Locator, Page } from "@playwright/test/types/test";
 
 export class LobbyPage {
     username: string;
@@ -6,16 +6,22 @@ export class LobbyPage {
     
     
     //locators
-    setName: Locator;
-    cookieAcceptButton: Locator;
-    nextButton: Locator;
-    enterButton: Locator;
-    grantCameraNMicrophone: Locator;
-    avatar: Locator;
-    page: any;
+    private setName: Locator;
+    private cookieAcceptButton: Locator;
+    private nextButton: Locator;
+    private enterButton: Locator;
+    private grantCameraNMicrophone: Locator;
+    private avatar: Locator;
     
-    constructor(page) {
+    // page
+    page: Page;
+    
+    constructor(page: Page) {
         this.page = page;
+
+        // defaults
+        this.username = "Unset User"
+
 
         //locators
         this.setName = page.locator("input[class='ant-input css-d4akvj mousetrap input--full-width']");
@@ -26,13 +32,19 @@ export class LobbyPage {
         this.lobbySetupDone = false;
     }
 
-    async goto() {
+    async visit() {
         await this.page.goto("https://test.fres.co/43f19f31-f72c-4af2-9ca6-ded0655e366c"); 
     }
 
 
-    async setupLobby(username : string): Promise<void> {
+    async setUsername(username) {
+       this.username = username; 
+    }
 
+
+    async setupLobby(): Promise<void> {
+
+        const username =this.username;
 
         await this.cookieAcceptButton.click();
 
@@ -55,7 +67,7 @@ export class LobbyPage {
         await this.nextButton.click();
         await this.nextButton.click();
         await this.enterButton.click();
-
+        this.lobbySetupDone = true;
     }
 
 

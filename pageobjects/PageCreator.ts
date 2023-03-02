@@ -6,7 +6,7 @@ import { MeetingPage } from "./MeetingPage";
 import { SignUpPage } from "./SignUpPage";
 import { SpacePage } from "./SpacePage";
 
-export class POManager {
+export class PageCreator {
     page: any;
     loginPage: LoginPage;
     lobbyPage: LobbyPage;
@@ -24,27 +24,26 @@ export class POManager {
         this.spacePage = new SpacePage(this.page);
     }
 
-    getLoginPage() {
+    createLoginPage() {
         return this.loginPage;
     }
 
-    getLobbyPage() {
+    createLobbyPage() {
         return this.lobbyPage;
     }
 
-    getHomePage() {
+    createHomePage() {
         return this.homePage;
     }
-    getMeetingPage() {
+    createMeetingPage() {
         return this.meetingPage;
     }
 
-    getSignUpPage() {
+    createSignUpPage() {
         return this.signUpPage;
     }
 
-    getSpacePage() {
+    createSpacePage() {
         return this.spacePage;
     }
 }
-module.exports = { POManager };

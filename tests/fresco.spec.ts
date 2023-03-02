@@ -1,20 +1,28 @@
 import { test, expect, ElementHandle} from '@playwright/test';
-import { Locator, Page } from "@playwright/test/types/test";
-import {MeetingPage} from "../pageobjects/MeetingPage";
+import { BrowserContext, Page } from "@playwright/test/types/test";
+import { PageCreator } from '../pageobjects/PageCreator';
+import { MeetingPage } from '../pageobjects/MeetingPage';
+
+let context: BrowserContext;
+let johnsPageCreator: PageCreator;
+let johnsPage : Page;
+let johnsMeetingPage: MeetingPage
 
 
-test('Browser context playwright test', async ({browser}) => {
-   
-    const context =  await browser.newContext();
+test.beforeAll(async({browser})=>{
+ context =  await browser.newContext();
     context.grantPermissions(['microphone', 'camera']);
+     johnsPage = await context.newPage();
+     johnsPageCreator = new PageCreator(johnsPage);
+     johnsMeetingPage = johnsPageCreator.createMeetingPage();
+     johnsMeetingPage.visit();
+     await johnsMeetingPage.setUsername("John");
+})
 
-    const page : Page = await context.newPage();
-    const meetingPage = new MeetingPage(page);
-    meetingPage.goto();
-    await meetingPage.setupLobby("Rocky");
-    await meetingPage.loadAvatar();
-    await meetingPage.dragAvatar();
-    // await page.waitForEvent("close");
+test('Browser context playwright test', async () => {
+    await johnsMeetingPage.setupLobby();
+    await johnsMeetingPage.trackAvatar();
+    await johnsMeetingPage.dragAvatar();
 })
 
 

@@ -37,7 +37,7 @@ export class MeetingPage extends LobbyPage {
 
     }
 
-    async loadAvatar(): Promise<void> {
+    async trackAvatar(): Promise<void> {
 
         const box = await this.dragableAvatar.boundingBox();
             let position: CoOrdinates = { x: 0, y: 0 }
