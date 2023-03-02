@@ -14,7 +14,7 @@ test('Browser context playwright test', async ({browser}) => {
     await meetingPage.setupLobby("Rocky");
     await meetingPage.loadAvatar();
     await meetingPage.dragAvatar();
-    await page.waitForEvent("close");
+    // await page.waitForEvent("close");
 })
 
 
