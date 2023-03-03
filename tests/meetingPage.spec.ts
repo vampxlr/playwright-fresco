@@ -43,7 +43,7 @@ test.describe('two tests', () => {
   test('john setup', async () => {
     await john.meetingPage.setupLobby();
     await john.meetingPage.dragAvatar();
-    john.context.waitForEvent('close');
+    // john.context.waitForEvent('close');
 
 })
 
@@ -54,6 +54,6 @@ test('jane setup', async () => {
     await jane.meetingPage.dragAvatar("right",600);
     await jane.meetingPage.dragAvatar("bottom",300);
 
-    jane.context.waitForEvent('close');
+    // jane.context.waitForEvent('close');
 })
 });
