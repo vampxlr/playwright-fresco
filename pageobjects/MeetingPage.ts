@@ -1,6 +1,7 @@
 import { Locator } from "@playwright/test/types/test";
 import { LobbyPage } from "./LobbyPage";
 
+// needs to be moved somewhere else
 interface CoOrdinates {
     x: number
     y: number
@@ -37,7 +38,7 @@ export class MeetingPage extends LobbyPage {
 
     }
 
-    async trackAvatar(): Promise<void> {
+     async trackAvatar(): Promise<boolean> {
 
         const box = await this.dragableAvatar.boundingBox();
             let position: CoOrdinates = { x: 0, y: 0 }
@@ -47,17 +48,29 @@ export class MeetingPage extends LobbyPage {
                 position = { x: boxXCenter, y: boxYCenter };
             }
             this.centerOfAvatar = position;
-
+            return box !==null;
     }
 
 
-    async dragAvatar(direction:string = "right"): Promise<void> {
-
-        await this.page.mouse.move(this.centerOfAvatar.x, this.centerOfAvatar.y)
+    async dragAvatar(direction:string = "right", distance:number = 300): Promise<void> {
+        await this.trackAvatar();
+        const center = this.centerOfAvatar;
+        await this.page.mouse.move(center.x, center.y)
         await this.page.mouse.down();
 
-        await this.page.mouse.move(this.centerOfAvatar.x + 300, this.centerOfAvatar.y)
-        await this.page.waitForTimeout(2000);
+        if (direction === "right") {
+            await this.page.mouse.move(center.x + distance, center.y) // move right
+        }
+        else if (direction === "top") {
+            await this.page.mouse.move(center.x, center.y - distance) // move top
+        }
+        else if (direction === "bottom") {
+
+            await this.page.mouse.move(center.x, center.y + distance) // move bottom
+        } else if (direction === "left") {
+            await this.page.mouse.move(center.x - distance, center.y) // move left
+        }
+        await this.page.waitForTimeout(5000);
         await this.page.mouse.up();
 
     }
