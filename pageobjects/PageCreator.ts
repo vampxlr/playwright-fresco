@@ -1,7 +1,7 @@
 import { Locator } from "@playwright/test/types/test";
 import { LobbyPage } from "./LobbyPage";
 import { HomePage } from "./HomePage";
-import { LoginPage } from "./LoginPage";
+import { LoginPage } from "./LoginPages";
 import { MeetingPage } from "./MeetingPage";
 import { SignUpPage } from "./SignUpPage";
 import { SpacePage } from "./SpacePage";
