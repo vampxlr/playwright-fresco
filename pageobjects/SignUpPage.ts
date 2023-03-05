@@ -1,6 +1,6 @@
 export class SignUpPage {
-   
-    constructor(page){
-        
+
+    constructor(page) {
+
     }
 }

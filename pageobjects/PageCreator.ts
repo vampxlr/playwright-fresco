@@ -1,10 +1,11 @@
-import { Locator } from "@playwright/test/types/test";
+import { Browser, BrowserContext, Locator, Page } from "@playwright/test/types/test";
 import { LobbyPage } from "./LobbyPage";
 import { HomePage } from "./HomePage";
 import { LoginPage } from "./LoginPage";
 import { MeetingPage } from "./MeetingPage";
 import { SignUpPage } from "./SignUpPage";
 import { SpacePage } from "./SpacePage";
+import { MeetingPageContext } from "../types/types";
 
 export class PageCreator {
     page: any;
@@ -14,36 +15,21 @@ export class PageCreator {
     meetingPage: MeetingPage;
     signUpPage: SignUpPage;
     spacePage: SpacePage;
-    constructor(page) {
-        this.page = page;
-        this.loginPage = new LoginPage(this.page);
-        this.lobbyPage = new LobbyPage(this.page);
-        this.homePage = new HomePage(this.page);
-        this.meetingPage = new MeetingPage(this.page);
-        this.signUpPage = new SignUpPage(this.page);
-        this.spacePage = new SpacePage(this.page);
+    browser: Browser;
+    constructor(browser) {
+        this.browser = browser;
     }
 
-    createLoginPage() {
-        return this.loginPage;
+    async createMeetingPageContext(username): Promise<MeetingPageContext> {
+        const context: BrowserContext = await this.browser.newContext();
+        context.grantPermissions(['microphone', 'camera']);
+        const page: Page = await context.newPage();
+        const meetingPage = new MeetingPage(page);
+        await meetingPage.visit();
+        await meetingPage.setUsername(username);
+        await meetingPage.setupLobby();
+        return { meetingPage, context, page };
     }
 
-    createLobbyPage() {
-        return this.lobbyPage;
-    }
 
-    createHomePage() {
-        return this.homePage;
-    }
-    createMeetingPage() {
-        return this.meetingPage;
-    }
-
-    createSignUpPage() {
-        return this.signUpPage;
-    }
-
-    createSpacePage() {
-        return this.spacePage;
-    }
 }

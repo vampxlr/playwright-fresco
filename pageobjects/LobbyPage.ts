@@ -3,19 +3,18 @@ import { Locator, Page } from "@playwright/test/types/test";
 export class LobbyPage {
     username: string;
     lobbySetupDone: boolean;
-    
-    
+
+
     //locators
     private setName: Locator;
     private cookieAcceptButton: Locator;
     private nextButton: Locator;
     private enterButton: Locator;
     private grantCameraNMicrophone: Locator;
-    private avatar: Locator;
-    
+
     // page
     page: Page;
-    
+
     constructor(page: Page) {
         this.page = page;
 
@@ -33,18 +32,18 @@ export class LobbyPage {
     }
 
     async visit() {
-        await this.page.goto("https://test.fres.co/43f19f31-f72c-4af2-9ca6-ded0655e366c"); 
+        await this.page.goto("https://test.fres.co/43f19f31-f72c-4af2-9ca6-ded0655e366c");
     }
 
 
     async setUsername(username) {
-       this.username = username; 
+        this.username = username;
     }
 
 
     async setupLobby(): Promise<void> {
 
-        const username =this.username;
+        const username = this.username;
 
         await this.cookieAcceptButton.click();
 
@@ -60,7 +59,6 @@ export class LobbyPage {
                 await this.grantCameraNMicrophone.click();
             }
         } catch (error) {
-            console.log('Timed out waiting for button:', error);
             // handle the error here
         }
 

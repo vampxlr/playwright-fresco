@@ -1,6 +1,6 @@
 export class SpacePage {
-   
-    constructor(page){
-        
+
+    constructor(page) {
+
     }
 }

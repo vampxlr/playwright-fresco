@@ -1,5 +1,5 @@
 export class LoginPage {
-   
-    constructor(page){
+
+    constructor(page) {
     }
 }

@@ -1,6 +1,6 @@
 export class HomePage {
-   
-    constructor(page){
-        
+
+    constructor(page) {
+
     }
 }
