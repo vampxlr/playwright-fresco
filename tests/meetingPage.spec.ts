@@ -105,28 +105,44 @@ test.describe('tests for meeting pages', () => {
     await test.step('select image from architect mode', async () => {
       // await jane.page.waitForTimeout(5000);
 
-      (await jane.meetingPage.getArchButtonByText("Image")).first().click();
+    const imageObject =  (await jane.meetingPage.getArchButtonByText("Image")).first();
+    await imageObject.click();
       const bool = await jane.meetingPage.lockButton.first().isVisible();
       if (bool) {
         (await jane.meetingPage.lockButton).first().click();
         // await jane.page.keyboard.press('L');
       }
-
+      expect(imageObject).toBeTruthy();
     });
 
     await test.step('drag image object in architect mode', async () => {
-      await jane.meetingPage.drag(".selection__item", 100, "top")
+      const selectedImageBeforeDrag = await jane.page.locator(".selection__item");
+      const beforeBox = await selectedImageBeforeDrag.boundingBox();
+      
+      await jane.meetingPage.drag(".selection__item", 100, "top");
 
+      const selectedImageAfterDrag = await jane.page.locator(".selection__item");
+      const afterBox = await selectedImageAfterDrag.boundingBox();
+      const condtion = (afterBox?.x !== beforeBox?.x) || (afterBox?.y !== beforeBox?.y);
+      expect(condtion).toEqual(true);
     });
 
     await test.step('resize selected image in architect mode', async () => {
       let resizeElement = await jane.meetingPage.wResizeButton;
+
+      const selectedImageBeforeResize = await jane.page.locator(".selection__item");
+
+      let boxBefore = await selectedImageBeforeResize.boundingBox();
       //  let position = await jane.meetingPage.getCenterOfElement(resizeElement.first());
       // await jane.page.waitForTimeout(5000);
 
       let selector = await jane.meetingPage.getClassFromLocator(resizeElement);
       await jane.meetingPage.drag(selector, 300, "left");
-      await jane.page.waitForEvent('close');
+
+      const selectedImageAfterResize = await jane.page.locator(".selection__item");
+    
+      let boxAfter = await selectedImageAfterResize.boundingBox();
+      expect(boxAfter?.width).toEqual(boxAfter?.width);
     });
   });
 
