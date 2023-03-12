@@ -9,6 +9,6 @@ export interface MeetingPageContext {
 }
 
 export interface CoOrdinates {
-  x: number
-  y: number
+  x: number 
+  y: number 
 }
